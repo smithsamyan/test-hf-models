@@ -34,6 +34,7 @@ async function setupWebcam() {
       audio: false,
       video: {
         facingMode: "user",
+        frameRate: { ideal: 60 },
       },
     });
     videoElement.srcObject = stream;
@@ -55,6 +56,30 @@ async function estimateDepth() {
   );
 
   let frameInProgress = false;
+  let processedFrameCount = 0;
+  let lastFpsUpdate = Date.now();
+
+  // Add display FPS counter
+  const displayFpsCounter = () => {
+    const now = Date.now();
+    const elapsed = now - lastFpsUpdate;
+    if (elapsed >= 1000) {
+      console.log({ processedFrameCount });
+      const processingFps = Math.round((processedFrameCount * 1000) / elapsed);
+      document.getElementById(
+        "fpsCounter"
+      ).textContent = `FPS: ${processingFps}`;
+      processedFrameCount = 0;
+      lastFpsUpdate = now;
+    }
+    requestAnimationFrame(displayFpsCounter);
+  };
+
+  displayFpsCounter();
+
+  const offscreenCanvas = document.createElement("canvas");
+  const offscreenContext = offscreenCanvas.getContext("2d");
+
   videoElement.addEventListener("play", () => {
     const processFrame = async () => {
       if (videoElement.paused || videoElement.ended) {
@@ -66,22 +91,19 @@ async function estimateDepth() {
         return;
       }
       frameInProgress = true;
+      const videoWidth = videoElement.videoWidth;
+      const videoHeight = videoElement.videoHeight;
 
       // Prevents multiple dimensions being processed when user changes width
       const destionationWidth = canvasContext.canvas.width;
       const destionationHeight = canvasContext.canvas.height;
 
-      const videoWidth = videoElement.videoWidth;
-      const videoHeight = videoElement.videoHeight;
-
       const processingWidth = videoWidth * webcamScale;
       const processingHeight = videoHeight * webcamScale;
 
       // Create offscreen canvas for lower resolution processing
-      const offscreenCanvas = document.createElement("canvas");
       offscreenCanvas.width = processingWidth;
       offscreenCanvas.height = processingHeight;
-      const offscreenContext = offscreenCanvas.getContext("2d");
 
       // Draw the video frame at lower resolution
       offscreenContext.drawImage(
@@ -125,8 +147,10 @@ async function estimateDepth() {
         destionationHeight
       );
 
-      requestAnimationFrame(processFrame);
+      // Update processed frame count after depth estimation
+      processedFrameCount++;
       frameInProgress = false;
+      requestAnimationFrame(processFrame);
     };
 
     processFrame();
