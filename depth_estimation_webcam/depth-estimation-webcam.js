@@ -106,24 +106,14 @@ async function estimateDepth() {
       offscreenCanvas.height = processingHeight;
 
       // Draw the video frame at lower resolution
+      // prettier-ignore
       offscreenContext.drawImage(
         videoElement,
-        0,
-        0,
-        videoWidth,
-        videoHeight,
-        0,
-        0,
-        processingWidth,
-        processingHeight
+        0, 0, videoWidth, videoHeight, 
+        0,0, processingWidth, processingHeight
       );
 
-      // Convert canvas to blob and create object URL
-      const blob = await new Promise((resolve) =>
-        offscreenCanvas.toBlob(resolve, "image/jpeg", 0.8)
-      );
-      const imageUrl = URL.createObjectURL(blob);
-      const depthResponse = await depthEstimator(imageUrl);
+      const depthResponse = await depthEstimator(offscreenCanvas);
       const depthData = depthResponse.depth.rgba().data;
 
       // Create ImageData and draw it to offscreen canvas
@@ -135,16 +125,11 @@ async function estimateDepth() {
       offscreenContext.putImageData(iData, 0, 0);
 
       // Scale up and draw to main canvas
+      // prettier-ignore
       canvasContext.drawImage(
         offscreenCanvas,
-        0,
-        0,
-        processingWidth,
-        processingHeight,
-        0,
-        0,
-        destionationWidth,
-        destionationHeight
+        0, 0, processingWidth, processingHeight,
+        0, 0, destionationWidth, destionationHeight
       );
 
       // Update processed frame count after depth estimation
