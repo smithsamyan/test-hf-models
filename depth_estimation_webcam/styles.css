@@ -6,4 +6,12 @@
 .webcam,
 .depth-estimation {
   transform: rotateY(180deg);
+  width: 640px;
+  height: 480px;
+}
+
+.slider-conatiner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }

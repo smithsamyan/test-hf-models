@@ -9,19 +9,42 @@
   <body>
     <h1>Depth Estimation from Webcam</h1>
     <div class="app">
-      <video
-        id="video"
-        class="webcam"
-        width="640"
-        height="480"
-        autoplay
-      ></video>
-      <canvas
-        id="canvas"
-        class="depth-estimation"
-        width="640"
-        height="480"
-      ></canvas>
+      <div class="webcam-container">
+        <video
+          id="video"
+          class="webcam"
+          width="320"
+          height="240"
+          autoplay
+        ></video>
+        <div class="controls">
+          <label for="webcamScale">Webcam scale:</label>
+          <input
+            type="range"
+            id="webcamScale"
+            min="0.1"
+            max="1"
+            value="0.5"
+            step="0.1"
+          />
+          <span id="webcamScaleValue">0.5</span>
+        </div>
+      </div>
+      <div class="canvas-container">
+        <canvas id="canvas" class="depth-estimation" width="320"></canvas>
+        <div class="slider-container">
+          <label for="canvasWidth">Canvas Width:</label>
+          <input
+            type="range"
+            id="canvasWidth"
+            min="160"
+            max="920"
+            value="320"
+            step="16"
+          />
+          <span id="canvasWidthValue">320</span>
+        </div>
+      </div>
     </div>
     <script type="module" src="depth-estimation-webcam.js"></script>
   </body>
