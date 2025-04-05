@@ -2,8 +2,9 @@
   "name": "test-hf-models",
   "version": "1.0.0",
   "description": "Node application to test Hugging Face models",
+  "type": "module",
   "scripts": {
-    "depth-estimation": "node depth-estimation.js"
+    "depth-estimation": "node depth_estimation/depth-estimation.js"
   },
   "keywords": [],
   "author": "",
