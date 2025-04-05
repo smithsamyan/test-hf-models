@@ -96,8 +96,12 @@ async function estimateDepth() {
         processingHeight
       );
 
-      const imageData = offscreenCanvas.toDataURL("image/jpeg", 0.8);
-      const depthResponse = await depthEstimator(imageData);
+      // Convert canvas to blob and create object URL
+      const blob = await new Promise((resolve) =>
+        offscreenCanvas.toBlob(resolve, "image/jpeg", 0.8)
+      );
+      const imageUrl = URL.createObjectURL(blob);
+      const depthResponse = await depthEstimator(imageUrl);
       const depthData = depthResponse.depth.rgba().data;
 
       // Create ImageData and draw it to offscreen canvas
