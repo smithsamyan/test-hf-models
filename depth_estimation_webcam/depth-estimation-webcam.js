@@ -77,52 +77,40 @@ async function estimateDepth() {
       const processingWidth = videoWidth * webcamScale;
       const processingHeight = videoHeight * webcamScale;
 
-      // console.log("Processing frame...");
-      // Draw the current video frame to the canvas
-      // Create an offscreen canvas to capture the frame
+      // Create offscreen canvas for lower resolution processing
       const offscreenCanvas = document.createElement("canvas");
       offscreenCanvas.width = processingWidth;
       offscreenCanvas.height = processingHeight;
       const offscreenContext = offscreenCanvas.getContext("2d");
 
-      // Draw the video frame directly at the lower resolution
+      // Draw the video frame at lower resolution
       offscreenContext.drawImage(
         videoElement,
         0,
         0,
         videoWidth,
-        videoHeight, // source dimensions
+        videoHeight,
         0,
         0,
         processingWidth,
-        processingHeight // destination dimensions
+        processingHeight
       );
 
-      // Get the image data from the offscreen canvas
       const imageData = offscreenCanvas.toDataURL("image/jpeg", 0.8);
-
-      // Run the Hugging Face pipeline to estimate depth
       const depthResponse = await depthEstimator(imageData);
-      // Post-process and visualize the depth map
       const depthData = depthResponse.depth.rgba().data;
 
-      // create ImageData instance
+      // Create ImageData and draw it to offscreen canvas
       const iData = new ImageData(
         new Uint8ClampedArray(depthData.buffer),
         processingWidth,
         processingHeight
       );
-      canvasContext.putImageData(iData, 0, 0);
+      offscreenContext.putImageData(iData, 0, 0);
 
-      // Scale up the result to destination size
-      const resultCanvas = document.createElement("canvas");
-      resultCanvas.width = processingWidth;
-      resultCanvas.height = processingHeight;
-      const resultContext = resultCanvas.getContext("2d");
-      resultContext.putImageData(iData, 0, 0);
-
+      // Scale up and draw to main canvas
       canvasContext.drawImage(
-        resultCanvas,
+        offscreenCanvas,
         0,
         0,
         processingWidth,
@@ -132,7 +120,7 @@ async function estimateDepth() {
         destionationWidth,
         destionationHeight
       );
-      // Continue processing frames
+
       requestAnimationFrame(processFrame);
       frameInProgress = false;
     };
