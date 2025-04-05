@@ -12,12 +12,12 @@ function updateWebcamScale(value) {
 }
 
 function updateCanvasWidth(value) {
-  setTimeout(() => {
+  requestAnimationFrame(() => {
     const canvas = document.getElementById("canvas");
     canvas.width = value;
     canvas.height = (value * 3) / 4; // Maintain aspect ratio
     document.getElementById("canvasWidthValue").textContent = value;
-  }, 0);
+  });
 }
 
 document.getElementById("webcamScale").addEventListener("input", (e) => {
@@ -65,7 +65,7 @@ async function estimateDepth() {
     const elapsed = now - lastFpsUpdate;
     if (elapsed >= 1000) {
       console.log({ processedFrameCount });
-      const processingFps = Math.round((processedFrameCount * 1000) / elapsed);
+      const processingFps = ((processedFrameCount * 1000) / elapsed).toFixed(2);
       document.getElementById(
         "fpsCounter"
       ).textContent = `FPS: ${processingFps}`;
