@@ -98,8 +98,8 @@ async function estimateDepth() {
       const destionationWidth = canvasContext.canvas.width;
       const destionationHeight = canvasContext.canvas.height;
 
-      const processingWidth = videoWidth * webcamScale;
-      const processingHeight = videoHeight * webcamScale;
+      const processingWidth = destionationWidth * webcamScale;
+      const processingHeight = destionationHeight * webcamScale;
 
       // Create offscreen canvas for lower resolution processing
       offscreenCanvas.width = processingWidth;
