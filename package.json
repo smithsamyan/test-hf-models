@@ -1,0 +1,14 @@
+{
+  "name": "test-hf-models",
+  "version": "1.0.0",
+  "description": "Node application to test Hugging Face models",
+  "scripts": {
+    "depth-estimation": "node depth-estimation.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@huggingface/transformers": "^3.4.2"
+  }
+}
