@@ -1,0 +1,9 @@
+.app {
+  display: flex;
+  gap: 16px;
+}
+
+.webcam,
+.depth-estimation {
+  transform: rotateY(180deg);
+}
