@@ -1,4 +1,4 @@
-import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.4.2";
+import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.4.2/dist/transformers.min.js";
 const videoElement = document.querySelector(".webcam");
 
 let webcamScale = 0.5;
