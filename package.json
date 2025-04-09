@@ -4,12 +4,15 @@
   "description": "Node application to test Hugging Face models",
   "type": "module",
   "scripts": {
-    "depth-estimation": "node depth_estimation/depth-estimation.js"
+    "depth-estimation": "node depth_estimation/depth-estimation.js",
+    "feature-extraction": "node feature_extraction_text/feature-extraction.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@huggingface/transformers": "^3.4.2"
+    "@huggingface/inference": "^3.6.2",
+    "@huggingface/transformers": "^3.4.2",
+    "dotenv": "^16.4.7"
   }
 }
