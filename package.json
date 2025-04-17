@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "depth-estimation": "node depth_estimation/depth-estimation.js",
-    "feature-extraction": "node feature_extraction_text/feature-extraction.js"
+    "feature-extraction": "node feature_extraction_text/feature-extraction.js",
+    "pose_estimation": "node pose_estimation/pose-estimation.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "dependencies": {
     "@huggingface/inference": "^3.6.2",
     "@huggingface/transformers": "^3.4.2",
+    "canvas": "^3.1.0",
     "dotenv": "^16.4.7"
   }
 }
